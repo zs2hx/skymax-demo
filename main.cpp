@@ -230,43 +230,81 @@ int main(int argc, char* argv[]) {
                 pv_input_watthour = pv_input_watts / (3600 / runinterval);
                 load_watthour = (float)load_watt / (3600 / runinterval);
 
-                // Print as JSON (output is expected to be parsed by another tool...)
-                printf("{\n");
+				if(1){
+					// Print as influxDB
+					printf("data Inverter_mode=%di,AC_grid_voltage=%.1f,AC_grid_frequency=%.1f,AC_out_voltage=%.1f,AC_out_frequency=%.1f,PV_in_voltage=%.1f,PV_in_current=%.1f,PV_in_watts=%.1f,PV_in_watthour=%.4f,SCC_voltage=%.4f,Load_pct=%di,Load_watt=%di,Load_watthour=%.4f,Load_va=%di,Bus_voltage=%di,Heatsink_temperature=%di,Battery_capacity=%di,Battery_voltage=%.2f,Battery_charge_current=%di,Battery_discharge_current=%di,Load_status_on=%c,SCC_charge_on=%c,AC_charge_on=%c,Battery_recharge_voltage=%.1f,Battery_under_voltage=%.1f,Battery_bulk_voltage=%.1f,Battery_float_voltage=%.1f,Max_grid_charge_current=%di,Max_charge_current=%di,Out_source_priority=%di,Charger_source_priority=%di\n",
+					mode,
+					voltage_grid,
+					freq_grid,
+					voltage_out,
+					freq_out,
+					pv_input_voltage,
+					pv_input_current,
+					pv_input_watts,
+					pv_input_watthour,
+					scc_voltage,
+					load_percent,
+					load_watt,
+					load_watthour,
+					load_va,
+					voltage_bus,
+					temp_heatsink,
+					batt_capacity,
+					voltage_batt,
+					batt_charge_current,
+					batt_discharge_current,
+					device_status[3] == 1 ? 'T' : 'F',
+					device_status[6] == 1 ? 'T' : 'F',
+					device_status[7] == 1 ? 'T' : 'F',
+					batt_recharge_voltage,
+					batt_under_voltage,
+					batt_bulk_voltage,
+					batt_float_voltage,
+					max_grid_charge_current,
+					max_charge_current,
+					out_source_priority,
+					charger_source_priority
+					);
+					
+				}else{
+					// Print as JSON (output is expected to be parsed by another tool...)
+					printf("{\n");
 
-                printf("  \"Inverter_mode\":%d,\n", mode);
-                printf("  \"AC_grid_voltage\":%.1f,\n", voltage_grid);
-                printf("  \"AC_grid_frequency\":%.1f,\n", freq_grid);
-                printf("  \"AC_out_voltage\":%.1f,\n", voltage_out);
-                printf("  \"AC_out_frequency\":%.1f,\n", freq_out);
-                printf("  \"PV_in_voltage\":%.1f,\n", pv_input_voltage);
-                printf("  \"PV_in_current\":%.1f,\n", pv_input_current);
-                printf("  \"PV_in_watts\":%.1f,\n", pv_input_watts);
-                printf("  \"PV_in_watthour\":%.4f,\n", pv_input_watthour);
-                printf("  \"SCC_voltage\":%.4f,\n", scc_voltage);
-                printf("  \"Load_pct\":%d,\n", load_percent);
-                printf("  \"Load_watt\":%d,\n", load_watt);
-                printf("  \"Load_watthour\":%.4f,\n", load_watthour);
-                printf("  \"Load_va\":%d,\n", load_va);
-                printf("  \"Bus_voltage\":%d,\n", voltage_bus);
-                printf("  \"Heatsink_temperature\":%d,\n", temp_heatsink);
-                printf("  \"Battery_capacity\":%d,\n", batt_capacity);
-                printf("  \"Battery_voltage\":%.2f,\n", voltage_batt);
-                printf("  \"Battery_charge_current\":%d,\n", batt_charge_current);
-                printf("  \"Battery_discharge_current\":%d,\n", batt_discharge_current);
-                printf("  \"Load_status_on\":%c,\n", device_status[3]);
-                printf("  \"SCC_charge_on\":%c,\n", device_status[6]);
-                printf("  \"AC_charge_on\":%c,\n", device_status[7]);
-                printf("  \"Battery_recharge_voltage\":%.1f,\n", batt_recharge_voltage);
-                printf("  \"Battery_under_voltage\":%.1f,\n", batt_under_voltage);
-                printf("  \"Battery_bulk_voltage\":%.1f,\n", batt_bulk_voltage);
-                printf("  \"Battery_float_voltage\":%.1f,\n", batt_float_voltage);
-                printf("  \"Max_grid_charge_current\":%d,\n", max_grid_charge_current);
-                printf("  \"Max_charge_current\":%d,\n", max_charge_current);
-                printf("  \"Out_source_priority\":%d,\n", out_source_priority);
-                printf("  \"Charger_source_priority\":%d,\n", charger_source_priority);
-                printf("  \"Battery_redischarge_voltage\":%.1f,\n", batt_redischarge_voltage);
-                printf("  \"Warnings\":\"%s\"\n", warnings->c_str());
-                printf("}\n");
+					printf("  \"Inverter_mode\":%d,\n", mode);
+					printf("  \"AC_grid_voltage\":%.1f,\n", voltage_grid);
+					printf("  \"AC_grid_frequency\":%.1f,\n", freq_grid);
+					printf("  \"AC_out_voltage\":%.1f,\n", voltage_out);
+					printf("  \"AC_out_frequency\":%.1f,\n", freq_out);
+					printf("  \"PV_in_voltage\":%.1f,\n", pv_input_voltage);
+					printf("  \"PV_in_current\":%.1f,\n", pv_input_current);
+					printf("  \"PV_in_watts\":%.1f,\n", pv_input_watts);
+					printf("  \"PV_in_watthour\":%.4f,\n", pv_input_watthour);
+					printf("  \"SCC_voltage\":%.4f,\n", scc_voltage);
+					printf("  \"Load_pct\":%d,\n", load_percent);
+					printf("  \"Load_watt\":%d,\n", load_watt);
+					printf("  \"Load_watthour\":%.4f,\n", load_watthour);
+					printf("  \"Load_va\":%d,\n", load_va);
+					printf("  \"Bus_voltage\":%d,\n", voltage_bus);
+					printf("  \"Heatsink_temperature\":%d,\n", temp_heatsink);
+					printf("  \"Battery_capacity\":%d,\n", batt_capacity);
+					printf("  \"Battery_voltage\":%.2f,\n", voltage_batt);
+					printf("  \"Battery_charge_current\":%d,\n", batt_charge_current);
+					printf("  \"Battery_discharge_current\":%d,\n", batt_discharge_current);
+					printf("  \"Load_status_on\":%c,\n", device_status[3]);
+					printf("  \"SCC_charge_on\":%c,\n", device_status[6]);
+					printf("  \"AC_charge_on\":%c,\n", device_status[7]);
+					printf("  \"Battery_recharge_voltage\":%.1f,\n", batt_recharge_voltage);
+					printf("  \"Battery_under_voltage\":%.1f,\n", batt_under_voltage);
+					printf("  \"Battery_bulk_voltage\":%.1f,\n", batt_bulk_voltage);
+					printf("  \"Battery_float_voltage\":%.1f,\n", batt_float_voltage);
+					printf("  \"Max_grid_charge_current\":%d,\n", max_grid_charge_current);
+					printf("  \"Max_charge_current\":%d,\n", max_charge_current);
+					printf("  \"Out_source_priority\":%d,\n", out_source_priority);
+					printf("  \"Charger_source_priority\":%d,\n", charger_source_priority);
+					printf("  \"Battery_redischarge_voltage\":%.1f,\n", batt_redischarge_voltage);
+					printf("  \"Warnings\":\"%s\"\n", warnings->c_str());
+					printf("}\n");
+				}
 
                 // Delete reply string so we can update with new data when polled again...
                 delete reply1;
