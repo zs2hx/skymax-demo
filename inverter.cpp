@@ -129,15 +129,16 @@ bool cInverter::query(const char *cmd, int replysize) {
 
     if (i==replysize) {
 
-        lprintf("INVERTER: %s reply size (%d bytes)", cmd, i);
-
+        lprintf("INVERTER: %s reply size (%d bytes) [%s]", cmd, i, buf);
+// PDJ
         if (buf[0]!='(' || buf[replysize-1]!=0x0d) {
-            lprintf("INVERTER: %s: incorrect start/stop bytes.  Buffer: %s", cmd, buf);
-            return false;
+            lprintf("INVERTER: %s: incorrect start/stop bytes.  Buffer: [%s] [%d]", cmd, buf, buf[replysize-1]);
+//            return false;
         }
+
         if (!(CheckCRC(buf, replysize))) {
             lprintf("INVERTER: %s: CRC Failed!  Reply size: %d  Buffer: %s", cmd, replysize, buf);
-            return false;
+//            return false;
         }
 
         buf[i-3] = '\0'; //nullterminating on first CRC byte
